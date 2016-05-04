@@ -41,6 +41,86 @@ class CategoryController {
 				break;
 		}       
     }
+	private function getCategories() {
+		$answer = $this->model->get();
+		if ($answer != null) {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+			$this->model->apiResponse = $answer;
+		} else {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE 
+			);
+			$this->model->apiResponse = $Message;
+		}
+	}
+	
+	private function getCategory($id) {
+		$answer = $this->model->get( $id );
+		if ($answer != null) {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+			$this->model->apiResponse = $answer;
+		} else {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE 
+			);
+			$this->model->apiResponse = $Message;
+		}
+	}
+	
+	private function createCategory($newCategory) {
+		if ($newID = $this->model->createNew ( $newCategory )) {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_CREATED,
+					"id" => "$newID" 
+			);
+			$this->model->apiResponse = $Message;
+		} else {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_INVALIDBODY 
+			);
+			$this->model->apiResponse = $Message;
+		}
+	}
+	private function deleteCategory($id) {
+		
+		if($this->model->delete($id)){
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE 
+			);
+			$this->model->apiResponse = $Message;
+			
+		}else{
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_INVALIDBODY 
+			);
+			$this->model->apiResponse = $Message;
+		}
+	}
+	
+	private function updateCategory($id, $updates) {
+		if ($this->model->updateUser($id,$updates)) {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE 
+			);
+			$this->model->apiResponse = $Message;
+		}else{
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_INVALIDBODY 
+			);
+			$this->model->apiResponse = $Message;
+		}
+	}
+	private function searchUsers($string) {
+		//TODO
+	}
 }
 
 
